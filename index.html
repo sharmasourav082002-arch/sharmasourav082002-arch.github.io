@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,57 +6,80 @@
   <title>WorldShop | Home</title>
   <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
-  <!-- Header -->
   <header>
     <h1>🌍 WorldShop</h1>
     <nav>
       <a href="index.html">Home</a>
       <a href="product.html">Products</a>
-      <a href="https://forms.gle/9Tim4264k2TM9ThB6" target="_blank">Order Form</a>
     </nav>
   </header>
 
-  <!-- Hero Section -->
   <section class="hero">
     <h2>Welcome to WorldShop</h2>
     <p>Your global marketplace for everything amazing!</p>
-    <button onclick="window.location.href='https://forms.gle/9Tim4264k2TM9ThB6'">Shop Now</button>
+    <button id="openOrderForm">Shop Now</button>
   </section>
 
-  <!-- Popular Products -->
   <section class="products">
     <h2>Popular Products</h2>
     <div class="product-grid">
-
       <div class="product">
-        <img src="https://via.placeholder.com/200" alt="Product 1">
+        <img src="https://via.placeholder.com/200" alt="Stylish Shoes">
         <h3>Stylish Shoes</h3>
         <p>₹899 / £8.99</p>
-        <a class="order-btn" href="https://forms.gle/9Tim4264k2TM9ThB6" target="_blank">Order Now</a>
+        <button class="order-btn" data-product="Stylish Shoes">Order Now</button>
       </div>
-
       <div class="product">
-        <img src="https://via.placeholder.com/200" alt="Product 2">
+        <img src="https://via.placeholder.com/200" alt="Classic Watch">
         <h3>Classic Watch</h3>
         <p>₹1299 / £12.99</p>
-        <a class="order-btn" href="https://forms.gle/9Tim4264k2TM9ThB6" target="_blank">Order Now</a>
+        <button class="order-btn" data-product="Classic Watch">Order Now</button>
       </div>
-
       <div class="product">
-        <img src="https://via.placeholder.com/200" alt="Product 3">
+        <img src="https://via.placeholder.com/200" alt="Trendy Bag">
         <h3>Trendy Bag</h3>
         <p>₹699 / £6.99</p>
-        <a class="order-btn" href="https://forms.gle/9Tim4264k2TM9ThB6" target="_blank">Order Now</a>
+        <button class="order-btn" data-product="Trendy Bag">Order Now</button>
       </div>
-
     </div>
   </section>
 
-  <!-- Footer -->
   <footer>
     <p>© 2025 WorldShop. All rights reserved.</p>
   </footer>
+
+  <!-- Popup Form Modal -->
+  <div id="orderModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Place Your Order</h2>
+      <form id="orderForm">
+        <label>
+          Product:
+          <input type="text" name="product" id="formProduct" readonly />
+        </label>
+        <label>
+          Name:
+          <input type="text" name="name" required />
+        </label>
+        <label>
+          Email:
+          <input type="email" name="email" required />
+        </label>
+        <label>
+          Address:
+          <textarea name="address" required></textarea>
+        </label>
+        <label>
+          Quantity:
+          <input type="number" name="quantity" min="1" value="1" required />
+        </label>
+        <button type="submit">Submit Order</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
