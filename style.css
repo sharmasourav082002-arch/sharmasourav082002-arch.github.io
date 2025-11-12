@@ -1,38 +1,47 @@
 body {
   font-family: Arial, sans-serif;
   margin: 0;
-  padding: 0;
-  background: #f5f5f5;
+  background-color: #f7f7f7;
   color: #333;
 }
 
 header {
-  background: #111;
-  color: #fff;
-  padding: 15px 0;
+  background: #4a00e0;
+  color: white;
+  padding: 15px;
   text-align: center;
 }
 
 nav a {
-  color: #fff;
-  margin: 0 15px;
+  color: white;
+  margin: 0 10px;
   text-decoration: none;
+  font-weight: bold;
+}
+
+nav a:hover {
+  text-decoration: underline;
 }
 
 .hero {
   text-align: center;
-  padding: 50px;
-  background: linear-gradient(135deg, #00c6ff, #0072ff);
+  background: linear-gradient(135deg, #4a00e0, #8e2de2);
   color: white;
+  padding: 50px 20px;
 }
 
-.hero button {
-  background: #fff;
-  color: #0072ff;
-  border: none;
+button {
   padding: 10px 20px;
+  background-color: white;
+  color: #4a00e0;
+  border: none;
   border-radius: 5px;
   cursor: pointer;
+  font-weight: bold;
+}
+
+button:hover {
+  background-color: #ddd;
 }
 
 .products {
@@ -42,44 +51,44 @@ nav a {
 
 .product-grid {
   display: flex;
-  justify-content: center;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 20px;
 }
 
 .product {
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
   width: 200px;
-  padding: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 .product img {
   width: 100%;
-  border-radius: 8px;
-}
-
-.product-detail {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 30px;
-}
-
-.product-detail img {
-  width: 300px;
   border-radius: 10px;
 }
 
-.detail {
-  text-align: center;
+.order-btn {
+  display: inline-block;
+  margin-top: 10px;
+  background-color: #4a00e0;
+  color: white;
+  padding: 8px 15px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.order-btn:hover {
+  background-color: #8e2de2;
 }
 
 footer {
-  background: #111;
-  color: #fff;
   text-align: center;
+  background: #4a00e0;
+  color: white;
   padding: 10px;
-  margin-top: 20px;
+  margin-top: 30px;
 }
