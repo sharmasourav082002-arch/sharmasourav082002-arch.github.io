@@ -1,85 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>WorldShop | Home</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Messo Store</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header>
-    <h1>🌍 WorldShop</h1>
+    <h1>Messo Style Store</h1>
     <nav>
       <a href="index.html">Home</a>
       <a href="product.html">Products</a>
+      <a href="#" id="contactBtn">Contact</a>
     </nav>
   </header>
 
   <section class="hero">
-    <h2>Welcome to WorldShop</h2>
-    <p>Your global marketplace for everything amazing!</p>
-    <button id="openOrderForm">Shop Now</button>
+    <h2>Trendy Fashion & Lifestyle</h2>
+    <p>Shop the latest Meesho-style looks</p>
   </section>
 
-  <section class="products">
-    <h2>Popular Products</h2>
-    <div class="product-grid">
-      <div class="product">
-        <img src="https://via.placeholder.com/200" alt="Stylish Shoes">
-        <h3>Stylish Shoes</h3>
-        <p>₹899 / £8.99</p>
-        <button class="order-btn" data-product="Stylish Shoes">Order Now</button>
-      </div>
-      <div class="product">
-        <img src="https://via.placeholder.com/200" alt="Classic Watch">
-        <h3>Classic Watch</h3>
-        <p>₹1299 / £12.99</p>
-        <button class="order-btn" data-product="Classic Watch">Order Now</button>
-      </div>
-      <div class="product">
-        <img src="https://via.placeholder.com/200" alt="Trendy Bag">
-        <h3>Trendy Bag</h3>
-        <p>₹699 / £6.99</p>
-        <button class="order-btn" data-product="Trendy Bag">Order Now</button>
-      </div>
+  <section class="product-grid">
+    <div class="product-card">
+      <img src="https://i.imgur.com/EHyR2nP.png" alt="T-shirt">
+      <h3>Stylish T-shirt</h3>
+      <p>₹499</p>
+      <button class="buy-now" data-id="price_1Pxxxxx">Buy Now</button>
+    </div>
+    <div class="product-card">
+      <img src="https://i.imgur.com/VG4f4aM.png" alt="Handbag">
+      <h3>Elegant Handbag</h3>
+      <p>₹1,299</p>
+      <button class="buy-now" data-id="price_1Pyyyyy">Buy Now</button>
+    </div>
+    <div class="product-card">
+      <img src="https://i.imgur.com/qIufhof.png" alt="Shoes">
+      <h3>Running Shoes</h3>
+      <p>₹1,999</p>
+      <button class="buy-now" data-id="price_1Pzzzzz">Buy Now</button>
     </div>
   </section>
 
-  <footer>
-    <p>© 2025 WorldShop. All rights reserved.</p>
-  </footer>
-
-  <!-- Popup Form Modal -->
-  <div id="orderModal" class="modal">
+  <!-- Contact Popup -->
+  <div id="contactModal" class="modal">
     <div class="modal-content">
       <span class="close">&times;</span>
-      <h2>Place Your Order</h2>
-      <form id="orderForm">
-        <label>
-          Product:
-          <input type="text" name="product" id="formProduct" readonly />
-        </label>
-        <label>
-          Name:
-          <input type="text" name="name" required />
-        </label>
-        <label>
-          Email:
-          <input type="email" name="email" required />
-        </label>
-        <label>
-          Address:
-          <textarea name="address" required></textarea>
-        </label>
-        <label>
-          Quantity:
-          <input type="number" name="quantity" min="1" value="1" required />
-        </label>
-        <button type="submit">Submit Order</button>
+      <form action="https://formspree.io/f/xeovoozn" method="POST">
+        <h3>Contact Us</h3>
+        <input type="text" name="name" placeholder="Your name" required>
+        <input type="email" name="email" placeholder="Your email" required>
+        <textarea name="message" placeholder="Your message" required></textarea>
+        <button type="submit">Send</button>
       </form>
     </div>
   </div>
 
+  <footer>
+    <p>© 2025 Messo Store – Fashion, Lifestyle, and More</p>
+  </footer>
+
+  <script src="https://js.stripe.com/v3/"></script>
   <script src="script.js"></script>
 </body>
 </html>
