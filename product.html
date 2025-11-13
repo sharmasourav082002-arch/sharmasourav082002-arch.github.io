@@ -3,77 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WorldShop | Products</title>
+  <title>Product Detail</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header>
-    <h1>🌍 WorldShop</h1>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="product.html">Products</a>
-    </nav>
+    <h1>Product Details</h1>
+    <a href="index.html" class="back">← Back</a>
   </header>
 
-  <section class="products">
-    <h2>All Products</h2>
-    <div class="product-grid">
-      <div class="product">
-        <img src="https://via.placeholder.com/200" alt="Trendy Dress">
-        <h3>Trendy Dress</h3>
-        <p>₹799 / £7.99</p>
-        <button class="order-btn" data-product="Trendy Dress">Order Now</button>
-      </div>
-      <div class="product">
-        <img src="https://via.placeholder.com/200" alt="Classic T-shirt">
-        <h3>Classic T-shirt</h3>
-        <p>₹499 / £4.99</p>
-        <button class="order-btn" data-product="Classic T-shirt">Order Now</button>
-      </div>
-      <div class="product">
-        <img src="https://via.placeholder.com/200" alt="Kitchen Mixer">
-        <h3>Kitchen Mixer</h3>
-        <p>₹1599 / £15.99</p>
-        <button class="order-btn" data-product="Kitchen Mixer">Order Now</button>
-      </div>
+  <section class="product-detail">
+    <img src="https://i.imgur.com/EHyR2nP.png" alt="Product Image">
+    <div>
+      <h2>Stylish T-shirt</h2>
+      <p>Soft cotton fabric with a premium fit and modern design.</p>
+      <h3>₹499</h3>
+      <button class="buy-now" data-id="price_1Pxxxxx">Buy Now</button>
     </div>
   </section>
 
-  <footer>
-    <p>© 2025 WorldShop. All rights reserved.</p>
-  </footer>
-
-  <!-- Popup Form Modal (same as index) -->
-  <div id="orderModal" class="modal">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <h2>Place Your Order</h2>
-      <form id="orderForm">
-        <label>
-          Product:
-          <input type="text" name="product" id="formProduct" readonly />
-        </label>
-        <label>
-          Name:
-          <input type="text" name="name" required />
-        </label>
-        <label>
-          Email:
-          <input type="email" name="email" required />
-        </label>
-        <label>
-          Address:
-          <textarea name="address" required></textarea>
-        </label>
-        <label>
-          Quantity:
-          <input type="number" name="quantity" min="1" value="1" required />
-        </label>
-        <button type="submit">Submit Order</button>
-      </form>
-    </div>
-  </div>
-
+  <script src="https://js.stripe.com/v3/"></script>
   <script src="script.js"></script>
 </body>
 </html>
