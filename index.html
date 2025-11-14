@@ -1,62 +1,78 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Messo Store</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Messo — Trendy Picks</title>
   <link rel="stylesheet" href="style.css">
+  <script defer src="https://js.stripe.com/v3/"></script>
+  <script defer src="assets/js/products.js"></script>
+  <script defer src="assets/js/script.js"></script>
 </head>
 <body>
   <header class="site-header">
     <div class="brand">
       <div class="logo">MS</div>
-      <div>
-        <h1>Messo Store</h1>
+      <div class="brand-text">
+        <h1>Messo</h1>
         <p class="tag">Trendy • Affordable</p>
       </div>
     </div>
-    <nav class="top-nav">
-      <a href="index.html">Home</a>
-      <a href="product.html">Products</a>
-      <a href="#contact" id="contactBtn">Contact</a>
-    </nav>
+
+    <div class="header-controls">
+      <input id="searchInput" placeholder="Search products, e.g. T-shirt" />
+      <select id="categorySelect"><option value="all">All categories</option></select>
+      <button id="cartBtn" class="cart-btn">Cart (<span id="cartCount">0</span>)</button>
+    </div>
   </header>
 
   <main class="container">
-    <section class="hero">
-      <h2>Trending deals — around ₹200</h2>
-      <p>Products with images & video previews — pay by Card / GPay / COD (demo).</p>
+    <nav class="category-bar" id="categoryBar"></nav>
+
+    <section class="hero-card">
+      <h2>Hot picks under ₹200 — Trending now</h2>
+      <p>Explore products, view video previews, pay by card/GPay or Cash on Delivery (COD).</p>
     </section>
 
-    <!-- Products grid container -->
-    <section id="shop">
+    <section id="productsSection">
       <div id="products" class="product-grid"></div>
+      <div id="noResults" class="muted" style="display:none;">No products found.</div>
     </section>
   </main>
 
-  <!-- Contact Popup (Formspree) -->
+  <!-- Cart modal -->
+  <div id="cartModal" class="modal">
+    <div class="modal-content">
+      <span class="close-cart">&times;</span>
+      <h3>Your Cart</h3>
+      <div id="cartItems"></div>
+      <div class="cart-footer">
+        <div id="cartTotal">Total: ₹0</div>
+        <div class="cart-actions">
+          <button id="checkoutBtn" class="primary">Proceed to Payment</button>
+          <button id="clearCart">Clear</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contact (Formspree) -->
+  <button id="contactFloat" class="msgr-btn">✉</button>
   <div id="contactModal" class="modal">
     <div class="modal-content">
       <span class="close">&times;</span>
-      <form id="contactForm" action="https://formspree.io/f/xeovoozn" method="POST">
-        <h3>Contact / Quick Order</h3>
+      <form action="https://formspree.io/f/xeovoozn" method="POST">
+        <h3>Quick Contact / Order</h3>
         <input type="text" name="name" placeholder="Your name" required>
         <input type="email" name="email" placeholder="Your email" required>
-        <textarea name="message" placeholder="Message (product, qty, address)"></textarea>
-        <button type="submit" class="primary">Send</button>
+        <textarea name="message" placeholder="Product, qty, address"></textarea>
+        <button class="primary" type="submit">Send</button>
       </form>
     </div>
   </div>
 
-  <footer style="text-align:center;padding:18px 0;background:#fff;margin-top:28px">
-    <p>© 2025 Messo Store — Fashion, Lifestyle, and More</p>
+  <footer class="site-footer">
+    <p>© 2025 Messo — UK & India</p>
   </footer>
-
-  <!-- Stripe.js (publishable key is used inside script.js) -->
-  <script src="https://js.stripe.com/v3/"></script>
-
-  <!-- products list & main frontend logic -->
-  <script src="assets/js/products.js"></script>
-  <script src="script.js"></script>
 </body>
 </html>
