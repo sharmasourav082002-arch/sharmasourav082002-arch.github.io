@@ -1,184 +1,140 @@
+// script.js (copy entire file and replace existing script.js)
+// Stripe publishable key (your provided pk)
+const stripe = Stripe("pk_live_51SSmVu3QzOhSCgVOrmvQMFbEclpfJxL30oAKd3fuLgsCkYpYTqqEXeDOZ66RZcIRBA6Uk96Pe7l6ovOHoBVzsawN003q5LLFUd");
 
-// script.js  — REPLACE ENTIRE FILE WITH THIS CONTENT
+// Backend root:
+// If you have a backend (Render) that exposes /create-checkout-session, set it here.
+// Example: const API_ROOT = "https://your-backend.onrender.com";
+const API_ROOT = ""; // <-- keep empty for now if you don't have backend
 
-// ---------------------------
-// CONFIG (paste your Stripe publishable key here)
-const STRIPE_PUBLISHABLE_KEY = "pk_live_51SSmVu3QzOhSCgVOrmvQMFbEclpfJxL30oAKd3fuLgsCkYpYTqqEXeDOZ66RZcIRBA6Uk96Pe7l6ovOHoBVzsawN003q5LLFUd";
-
-// If you have a backend server to create checkout sessions set API_ROOT to its base URL (no trailing slash).
-// Example: "https://my-backend.onrender.com"
-const API_ROOT = ""; // <<< if empty => demo mode (no real payment) 
-
-// ---------------------------
-// Init Stripe (only used if you do redirect via backend or client)
-let stripe = null;
-if (window.Stripe && STRIPE_PUBLISHABLE_KEY) {
-  try { stripe = Stripe(STRIPE_PUBLISHABLE_KEY); } catch(e){ console.warn("Stripe init failed", e); }
-}
-
-// Utility: safe escape for text
-function esc(s){ return String(s||"").replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-
-// RENDER PRODUCTS
-function renderProductsList(products) {
+// Render products into #products
+function renderProducts(){
   const container = document.getElementById('products');
-  if(!container) return console.error("No #products container found in index.html");
-  if(!Array.isArray(products) || products.length===0){
-    container.innerHTML = '<div style="padding:18px">No products found.</div>';
-    return;
+  if(!container) return;
+  const products = window.PRODUCTS_FRONTEND || [];
+  if(!products.length){
+    container.innerHTML = '<p>No products found.</p>'; return;
   }
 
-  // build html
-  const html = products.map(p=>{
-    const media = p.video ? 
-      `<video controls class="product-video" style="max-width:100%;height:auto"><source src="${esc(p.video)}" type="video/mp4">Your browser does not support video.</video>` :
-      `<img src="${esc(p.image)}" alt="${esc(p.title)}" class="product-img" style="width:100%;height:160px;object-fit:cover;border-radius:8px" />`;
-
-    return `
-      <div class="product-card" data-id="${esc(p.id)}" style="width:220px;margin:10px;padding:12px;border-radius:10px;background:#fff;box-shadow:0 6px 18px rgba(0,0,0,0.06);">
-        <div class="media" style="height:160px;overflow:hidden;border-radius:8px">${media}</div>
-        <h3 style="font-size:15px;margin:10px 0 6px;min-height:38px">${esc(p.title)}</h3>
-        <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
-          <div style="font-weight:700">${esc(p.price_display || ('₹'+( (p.price_smallest||0)/100 )))}</div>
-          <div style="display:flex;gap:8px">
-            <button class="view-btn" data-id="${esc(p.id)}" style="padding:6px 8px;border:1px solid #eee;border-radius:6px;background:#fff;cursor:pointer">View</button>
-            <button class="buy-now" data-id="${esc(p.id)}" style="padding:6px 12px;border-radius:6px;background:#d35400;color:#fff;border:none;cursor:pointer">Buy</button>
-          </div>
-        </div>
+  const html = products.map(p => `
+    <div class="product-card" id="prod-${p.id}">
+      <div class="media">
+        ${p.video ? `<video controls class="product-video"><source src="${p.video}" type="video/mp4"></video>` :
+                    `<img src="${p.image}" alt="${p.title}" class="product-img" />`}
       </div>
-    `;
-  }).join('');
-
-  // wrapper layout
-  container.innerHTML = `<div id="products-wrap" style="display:flex;flex-wrap:wrap;gap:10px">${html}</div>`;
+      <h3 class="product-title">${p.title}</h3>
+      <p class="product-price">${p.price_display}</p>
+      <div style="margin-top:auto">
+        <button class="primary buy-now" data-id="${p.id}">Buy Now</button>
+        <a class="secondary" href="product.html?id=${p.id}">View</a>
+      </div>
+    </div>
+  `).join('');
+  container.innerHTML = html;
 }
 
-// FILTER & SEARCH helpers
-function applyFilters(products){
-  const q = (document.getElementById('searchInput')?.value || "").trim().toLowerCase();
-  const cat = (document.getElementById('categorySelect')?.value || "").trim();
-  let out = products.slice();
-  if(cat && cat!=="all"){
-    out = out.filter(p => (p.title||"").toLowerCase().includes(cat.toLowerCase()));
+// Attach search + category
+function buildFilters(){
+  const products = window.PRODUCTS_FRONTEND || [];
+  const catSet = new Set(products.map(p => p.title.split(' ')[1] || 'General'));
+  const select = document.getElementById('categorySelect');
+  if(select){
+    for(const c of Array.from(catSet)){
+      const opt = document.createElement('option'); opt.value = c; opt.textContent = c;
+      select.appendChild(opt);
+    }
+    select.onchange = applyFilters;
   }
-  if(q){
-    out = out.filter(p => (p.title||"").toLowerCase().includes(q));
-  }
-  return out;
+  const search = document.getElementById('searchInput');
+  if(search) search.oninput = applyFilters;
 }
 
-// Attach handlers after render
-function attachHandlers(products){
-  // Buy Now
+function applyFilters(){
+  const q = (document.getElementById('searchInput')||{value:''}).value.toLowerCase();
+  const cat = (document.getElementById('categorySelect')||{value:'all'}).value;
+  const container = document.getElementById('products');
+  const products = window.PRODUCTS_FRONTEND || [];
+  const filtered = products.filter(p=>{
+    const inSearch = p.title.toLowerCase().includes(q);
+    const inCat = (cat === 'all') || (p.title.split(' ')[1] === cat);
+    return inSearch && inCat;
+  });
+  if(!filtered.length){ container.innerHTML = '<p>No products match.</p>'; return; }
+  container.innerHTML = filtered.map(p => `
+    <div class="product-card" id="prod-${p.id}">
+      <div class="media">
+        ${p.video ? `<video controls class="product-video"><source src="${p.video}" type="video/mp4"></video>` :
+                    `<img src="${p.image}" alt="${p.title}" class="product-img" />`}
+      </div>
+      <h3 class="product-title">${p.title}</h3>
+      <p class="product-price">${p.price_display}</p>
+      <div style="margin-top:auto">
+        <button class="primary buy-now" data-id="${p.id}">Buy Now</button>
+        <a class="secondary" href="product.html?id=${p.id}">View</a>
+      </div>
+    </div>
+  `).join('');
+  attachBuyNowHandlers(); // reattach
+}
+
+// Attach Buy Now handlers
+function attachBuyNowHandlers(){
   document.querySelectorAll('.buy-now').forEach(btn=>{
-    btn.onclick = async (e)=>{
+    btn.onclick = async function(){
       const pid = btn.getAttribute('data-id');
-      const item = (products||[]).find(x=>x.id===pid);
-      if(!item){ alert("Product not found"); return; }
+      const itemDef = (window.PRODUCTS_FRONTEND || []).find(x=>x.id===pid);
+      if(!itemDef){ alert('Product error'); return; }
 
-      // If backend present -> create session
-      if(API_ROOT){
+      // If you have backend: call /create-checkout-session
+      if(API_ROOT && API_ROOT.length){
         try{
-          btn.disabled = true;
-          btn.innerText = "Processing...";
-          const res = await fetch(`${API_ROOT}/create-checkout-session`, {
-            method:"POST",
-            headers:{"Content-Type":"application/json"},
-            body: JSON.stringify({ items:[{ id: item.id, qty:1 }], currency:item.currency || "inr" })
+          const res = await fetch(`${API_ROOT.replace(/\/$/,'')}/create-checkout-session`,{
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body: JSON.stringify({ items:[{ id: pid, qty: 1 }], currency: itemDef.currency })
           });
           const data = await res.json();
-          if(data.url){
-            window.location.href = data.url;
-            return;
-          } else {
-            console.error("Checkout error", data);
-            alert("Payment error: " + (data.error || "No session URL returned"));
-          }
-        } catch(err){
-          console.error(err);
-          alert("Payment request failed. See console.");
-        } finally {
-          btn.disabled = false;
-          btn.innerText = "Buy";
-        }
+          if(data.url){ window.location.href = data.url; return; }
+          alert('Payment Error: ' + (data.error || 'no session url'));
+        }catch(err){ console.error(err); alert('Payment request failed. Check console.'); }
         return;
       }
 
-      // DEMO mode if no backend
-      alert("Demo purchase: " + item.title + " — This site currently runs in demo mode (no backend). To enable real payments, deploy the backend and set API_ROOT.");
+      // No backend: fallback — redirect to checkout.html (demo)
+      alert('Demo checkout: no backend configured. You will be redirected to demo checkout page.');
+      window.location.href = 'checkout.html';
     };
   });
+}
 
-  // View button -> go to product page if available (product.html?id=...)
-  document.querySelectorAll('.view-btn').forEach(b=>{
-    b.onclick = ()=> {
-      const id = b.getAttribute('data-id');
-      window.location.href = `product.html?id=${encodeURIComponent(id)}`;
-    };
+// Init
+(function init(){
+  renderProducts();
+  buildFilters();
+  attachBuyNowHandlers();
+
+  // listen for product page buy events
+  window.addEventListener('messoBuy', async (e)=>{
+    const pid = e.detail && e.detail.id;
+    if(!pid) return;
+    // same handler logic as above
+    const itemDef = (window.PRODUCTS_FRONTEND||[]).find(x=>x.id===pid);
+    if(!itemDef) { alert('Product not found'); return; }
+    if(API_ROOT && API_ROOT.length){
+      try{
+        const res = await fetch(`${API_ROOT.replace(/\/$/,'')}/create-checkout-session`,{
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body: JSON.stringify({ items:[{ id: pid, qty:1 }], currency: itemDef.currency })
+        });
+        const data = await res.json();
+        if(data.url) { window.location.href = data.url; return; }
+        alert('Payment Error');
+      }catch(err){ console.error(err); alert('Payment error'); }
+      return;
+    }
+    alert('Demo checkout: no backend configured.');
+    window.location.href = 'checkout.html';
   });
 
-  // search and category change
-  const search = document.getElementById('searchInput');
-  const select = document.getElementById('categorySelect');
-  if(search) search.oninput = ()=> { const out=applyFilters(window.PRODUCTS_FRONTEND||[]); renderProductsList(out); attachHandlers(out); };
-  if(select) select.onchange = ()=> { const out=applyFilters(window.PRODUCTS_FRONTEND||[]); renderProductsList(out); attachHandlers(out); };
-}
-
-// MAIN boot
-function boot(){
-  // Wait for products file to load
-  const products = window.PRODUCTS_FRONTEND || [];
-  // build category dropdown if not present
-  if(document.getElementById('categorySelect')===null){
-    const topBar = document.createElement('div');
-    topBar.style.display = "flex";
-    topBar.style.justifyContent = "flex-start";
-    topBar.style.gap = "10px";
-    topBar.style.alignItems = "center";
-    topBar.style.padding = "10px 0";
-
-    const input = document.createElement('input');
-    input.id = "searchInput";
-    input.placeholder = "Search products...";
-    input.style.padding = "8px 10px";
-    input.style.width = "320px";
-    input.style.borderRadius = "6px";
-    input.style.border = "1px solid #ddd";
-
-    const select = document.createElement('select');
-    select.id = "categorySelect";
-    select.style.padding = "8px";
-    select.style.border = "1px solid #ddd";
-    select.style.borderRadius = "6px";
-    const allOpt = document.createElement('option'); allOpt.value="all"; allOpt.text="All categories"; select.appendChild(allOpt);
-
-    // auto populate categories from product titles by naive keyword
-    const catSet = new Set();
-    products.forEach(p=>{
-      const parts = (p.title||"").split(" ");
-      // try to take a significant word as category (2nd or 1st)
-      if(parts[1]) catSet.add(parts[1]);
-    });
-    Array.from(catSet).slice(0,20).forEach(c=>{
-      const o = document.createElement('option'); o.value = c; o.text = c; select.appendChild(o);
-    });
-
-    // insert topBar before #shop or at top of container
-    const shop = document.getElementById('shop');
-    if(shop) shop.parentNode.insertBefore(topBar, shop);
-    topBar.appendChild(input);
-    topBar.appendChild(select);
-  }
-
-  // initial render (apply filters)
-  const out = applyFilters(products);
-  renderProductsList(out);
-  attachHandlers(out);
-}
-
-// DOM ready
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", boot);
-} else {
-  boot();
-}
+})();
