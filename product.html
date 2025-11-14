@@ -1,10 +1,10 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>Product Detail</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
   <header class="site-header">
@@ -12,7 +12,7 @@
     <div class="site-title">Messo Store</div>
     <nav class="top-nav">
       <a href="index.html">Home</a>
-      <a href="index.html">Products</a>
+      <a href="product.html">Products</a>
     </nav>
   </header>
 
@@ -20,41 +20,42 @@
     <section id="product-detail" class="product-detail"></section>
   </main>
 
-  <footer><p>© 2025 Messo — UK & India</p></footer>
+  <footer>
+    <p>© 2025 Messo — UK & India</p>
+  </footer>
 
   <script src="assets/js/products.js"></script>
   <script>
-    // small script to read ?id= and show product
-    (function(){
-      const params = new URLSearchParams(window.location.search);
-      const id = params.get('id');
-      const list = window.PRODUCTS_FRONTEND || [];
-      const p = list.find(x=>x.id === id) || list[0];
-      const el = document.getElementById('product-detail');
-      if (!p) { el.innerHTML = '<p>Product not found</p>'; return; }
-      el.innerHTML = `
-        <div class="product-detail-wrap">
-          <div class="media"><img src="${p.image}" alt="${p.title}" /></div>
-          <div class="info">
-            <h2>${p.title}</h2>
-            <div class="price">${p.price_display}</div>
-            <p>Category: <strong>${p.title.split(' ')[1] || 'General'}</strong></p>
-            <div style="margin-top:12px">
-              <button id="buyNow" data-id="${p.id}" class="primary">Buy Now</button>
-              <a href="index.html" class="secondary">Back to shop</a>
-            </div>
+  // small script to read ?id= and show product
+  (function(){
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
+    const list = window.PRODUCTS_FRONTEND || [];
+    const p = list.find(x=>x.id === id) || null;
+    const el = document.getElementById('product-detail');
+    if(!p){ el.innerHTML = '<p>Product not found</p>'; return; }
+    el.innerHTML = `
+      <div class="product-detail-wrap">
+        <div class="media"><img src="${p.image}" alt="${p.title}" /></div>
+        <div class="info">
+          <h2>${p.title}</h2>
+          <div class="price">${p.price_display}</div>
+          <p>Category: <strong>${p.title.split(' ')[1] || 'General'}</strong></p>
+          <div style="margin-top:12px">
+            <button id="buyNow" data-id="${p.id}" class="primary">Buy Now</button>
+            <a href="index.html" class="secondary">Back to shop</a>
           </div>
         </div>
-      `;
+      </div>
+    `;
 
-      document.getElementById('buyNow').onclick = function(){
-        // delegate to parent script if present
-        const ev = new CustomEvent('messoBuy', { detail: { id: p.id }});
-        window.dispatchEvent(ev);
-        // fallback: alert
-        if (!window._messoHandled) alert('Click Buy — backend checkout not configured');
-      };
-    })();
+    document.getElementById('buyNow').onclick = function(){
+      // dispatch event for parent script to handle (or fallback)
+      const ev = new CustomEvent('messoBuy', { detail:{ id: p.id }});
+      window.dispatchEvent(ev);
+      if(!window._messoHandled) alert('Click Buy — backend not configured for real payments (demo).');
+    };
+  })();
   </script>
 </body>
 </html>
