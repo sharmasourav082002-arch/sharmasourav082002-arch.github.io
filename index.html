@@ -1,78 +1,88 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Messo — Trendy Picks</title>
-  <link rel="stylesheet" href="style.css">
-  <script defer src="https://js.stripe.com/v3/"></script>
-  <script defer src="assets/js/products.js"></script>
-  <script defer src="assets/js/script.js"></script>
-</head>
-<body>
-  <header class="site-header">
-    <div class="brand">
-      <div class="logo">MS</div>
-      <div class="brand-text">
-        <h1>Messo</h1>
-        <p class="tag">Trendy • Affordable</p>
-      </div>
-    </div>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Messo - Trendy & Affordable</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #ffffff;
+      color: #222;
+    }
 
-    <div class="header-controls">
-      <input id="searchInput" placeholder="Search products, e.g. T-shirt" />
-      <select id="categorySelect"><option value="all">All categories</option></select>
-      <button id="cartBtn" class="cart-btn">Cart (<span id="cartCount">0</span>)</button>
-    </div>
+    header {
+      background: #8b3d02;
+      padding: 15px;
+      color: #fff;
+      text-align: center;
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    nav {
+      background: #c76a29;
+      padding: 10px;
+      color: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    nav select {
+      padding: 6px;
+    }
+
+    #products {
+      margin-top: 16px;
+    }
+
+    footer {
+      background: #8b3d02;
+      color: #fff;
+      padding: 20px;
+      margin-top: 40px;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header>
+    Messo  
+    <div style="font-size:14px;font-weight:normal;">Trendy • Affordable</div>
   </header>
 
-  <main class="container">
-    <nav class="category-bar" id="categoryBar"></nav>
+  <!-- NAVBAR -->
+  <nav>
+    <input type="text" placeholder="T-shirt" style="padding:5px;width:130px;border:none;border-radius:4px;">
+    <select>
+      <option>All Categories</option>
+    </select>
+    <div>Cart (0)</div>
+  </nav>
 
-    <section class="hero-card">
-      <h2>Hot picks under ₹200 — Trending now</h2>
-      <p>Explore products, view video previews, pay by card/GPay or Cash on Delivery (COD).</p>
-    </section>
+  <!-- PRODUCTS SECTION -->
+  <section id="shop" style="padding:18px;">
+    <h2>Hot picks under ₹200 — Trending now</h2>
+    <p style="color:#555;">Explore products, view video previews, pay by card/GPay or Cash on Delivery (COD).</p>
 
-    <section id="productsSection">
-      <div id="products" class="product-grid"></div>
-      <div id="noResults" class="muted" style="display:none;">No products found.</div>
-    </section>
-  </main>
+    <!-- PRODUCT GRID (script will auto-fill here) -->
+    <section id="products"></section>
+  </section>
 
-  <!-- Cart modal -->
-  <div id="cartModal" class="modal">
-    <div class="modal-content">
-      <span class="close-cart">&times;</span>
-      <h3>Your Cart</h3>
-      <div id="cartItems"></div>
-      <div class="cart-footer">
-        <div id="cartTotal">Total: ₹0</div>
-        <div class="cart-actions">
-          <button id="checkoutBtn" class="primary">Proceed to Payment</button>
-          <button id="clearCart">Clear</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Contact (Formspree) -->
-  <button id="contactFloat" class="msgr-btn">✉</button>
-  <div id="contactModal" class="modal">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <form action="https://formspree.io/f/xeovoozn" method="POST">
-        <h3>Quick Contact / Order</h3>
-        <input type="text" name="name" placeholder="Your name" required>
-        <input type="email" name="email" placeholder="Your email" required>
-        <textarea name="message" placeholder="Product, qty, address"></textarea>
-        <button class="primary" type="submit">Send</button>
-      </form>
-    </div>
-  </div>
-
-  <footer class="site-footer">
-    <p>© 2025 Messo — UK & India</p>
+  <!-- FOOTER -->
+  <footer>
+    © 2025 Messo — UK & India  
   </footer>
+
+  <!-- SCRIPTS (VERY IMPORTANT ORDER) -->
+  <script src="assets/js/products.js"></script>
+  <script src="https://js.stripe.com/v3/"></script>
+  <script src="script.js"></script>
+
 </body>
 </html>
