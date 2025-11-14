@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Messo — Trending deals</title>
+  <title>Messo Store — Home</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -13,54 +13,37 @@
     <nav class="top-nav">
       <a href="index.html">Home</a>
       <a href="product.html">Products</a>
-      <a href="#contact" id="contactBtn">Contact</a>
-      <div class="cart">Cart (<span id="cartCount">0</span>)</div>
+      <a href="#">Contact</a>
+      <span class="cart">Cart (0)</span>
     </nav>
   </header>
 
   <main class="container">
     <section class="hero">
       <h1>Hot picks under ₹200 — Trending now</h1>
-      <p>Explore products with images & video previews — pay by Card / GPay / COD (demo).</p>
+      <p>Explore products with images & video previews — demo payments.</p>
     </section>
 
     <section class="controls">
-      <input id="searchInput" type="search" placeholder="Search products..." />
-      <select id="categorySelect">
-        <option value="">All categories</option>
-      </select>
+      <input id="searchInput" placeholder="Search products..." />
+      <select id="categorySelect"><option value="all">All categories</option></select>
     </section>
 
-    <!-- Products container -->
+    <!-- Products grid container -->
     <section id="shop">
       <div id="products" class="product-grid"></div>
     </section>
-
-    <div id="pagination" class="pagination"></div>
-
   </main>
-
-  <!-- Contact modal (simple form using Formspree URL you provided) -->
-  <div id="contactModal" class="modal">
-    <div class="modal-content">
-      <button class="close">&times;</button>
-      <h3>Contact / Quick Order</h3>
-      <form id="contactForm" action="https://formspree.io/f/xeovoozn" method="POST">
-        <input name="name" placeholder="Your name" required />
-        <input type="email" name="email" placeholder="Your email" required />
-        <textarea name="message" placeholder="Message (product, qty, address)"></textarea>
-        <button type="submit" class="primary">Send</button>
-      </form>
-    </div>
-  </div>
 
   <footer>
     <p>© 2025 Messo — UK & India</p>
   </footer>
 
-  <!-- scripts: products.js must load BEFORE script.js -->
-  <script src="assets/js/products.js"></script>
+  <!-- Stripe JS (publishable used in script.js) -->
   <script src="https://js.stripe.com/v3/"></script>
+
+  <!-- products list must load before script.js -->
+  <script src="assets/js/products.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
