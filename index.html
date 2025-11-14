@@ -1,88 +1,66 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Messo - Trendy & Affordable</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #ffffff;
-      color: #222;
-    }
-
-    header {
-      background: #8b3d02;
-      padding: 15px;
-      color: #fff;
-      text-align: center;
-      font-size: 22px;
-      font-weight: bold;
-    }
-
-    nav {
-      background: #c76a29;
-      padding: 10px;
-      color: #fff;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    nav select {
-      padding: 6px;
-    }
-
-    #products {
-      margin-top: 16px;
-    }
-
-    footer {
-      background: #8b3d02;
-      color: #fff;
-      padding: 20px;
-      margin-top: 40px;
-      text-align: center;
-    }
-  </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Messo — Trending deals</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
-
-  <!-- HEADER -->
-  <header>
-    Messo  
-    <div style="font-size:14px;font-weight:normal;">Trendy • Affordable</div>
+  <header class="site-header">
+    <div class="brand">MS</div>
+    <div class="site-title">Messo Store</div>
+    <nav class="top-nav">
+      <a href="index.html">Home</a>
+      <a href="product.html">Products</a>
+      <a href="#contact" id="contactBtn">Contact</a>
+      <div class="cart">Cart (<span id="cartCount">0</span>)</div>
+    </nav>
   </header>
 
-  <!-- NAVBAR -->
-  <nav>
-    <input type="text" placeholder="T-shirt" style="padding:5px;width:130px;border:none;border-radius:4px;">
-    <select>
-      <option>All Categories</option>
-    </select>
-    <div>Cart (0)</div>
-  </nav>
+  <main class="container">
+    <section class="hero">
+      <h1>Hot picks under ₹200 — Trending now</h1>
+      <p>Explore products with images & video previews — pay by Card / GPay / COD (demo).</p>
+    </section>
 
-  <!-- PRODUCTS SECTION -->
-  <section id="shop" style="padding:18px;">
-    <h2>Hot picks under ₹200 — Trending now</h2>
-    <p style="color:#555;">Explore products, view video previews, pay by card/GPay or Cash on Delivery (COD).</p>
+    <section class="controls">
+      <input id="searchInput" type="search" placeholder="Search products..." />
+      <select id="categorySelect">
+        <option value="">All categories</option>
+      </select>
+    </section>
 
-    <!-- PRODUCT GRID (script will auto-fill here) -->
-    <section id="products"></section>
-  </section>
+    <!-- Products container -->
+    <section id="shop">
+      <div id="products" class="product-grid"></div>
+    </section>
 
-  <!-- FOOTER -->
+    <div id="pagination" class="pagination"></div>
+
+  </main>
+
+  <!-- Contact modal (simple form using Formspree URL you provided) -->
+  <div id="contactModal" class="modal">
+    <div class="modal-content">
+      <button class="close">&times;</button>
+      <h3>Contact / Quick Order</h3>
+      <form id="contactForm" action="https://formspree.io/f/xeovoozn" method="POST">
+        <input name="name" placeholder="Your name" required />
+        <input type="email" name="email" placeholder="Your email" required />
+        <textarea name="message" placeholder="Message (product, qty, address)"></textarea>
+        <button type="submit" class="primary">Send</button>
+      </form>
+    </div>
+  </div>
+
   <footer>
-    © 2025 Messo — UK & India  
+    <p>© 2025 Messo — UK & India</p>
   </footer>
 
-  <!-- SCRIPTS (VERY IMPORTANT ORDER) -->
+  <!-- scripts: products.js must load BEFORE script.js -->
   <script src="assets/js/products.js"></script>
   <script src="https://js.stripe.com/v3/"></script>
   <script src="script.js"></script>
-
 </body>
 </html>
