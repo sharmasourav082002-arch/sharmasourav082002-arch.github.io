@@ -1,66 +1,62 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>Messo Store</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>
-    <h1>Messo Style Store</h1>
-    <nav>
+  <header class="site-header">
+    <div class="brand">
+      <div class="logo">MS</div>
+      <div>
+        <h1>Messo Store</h1>
+        <p class="tag">Trendy • Affordable</p>
+      </div>
+    </div>
+    <nav class="top-nav">
       <a href="index.html">Home</a>
       <a href="product.html">Products</a>
-      <a href="#" id="contactBtn">Contact</a>
+      <a href="#contact" id="contactBtn">Contact</a>
     </nav>
   </header>
 
-  <section class="hero">
-    <h2>Trendy Fashion & Lifestyle</h2>
-    <p>Shop the latest Meesho-style looks</p>
-  </section>
+  <main class="container">
+    <section class="hero">
+      <h2>Trending deals — around ₹200</h2>
+      <p>Products with images & video previews — pay by Card / GPay / COD (demo).</p>
+    </section>
 
-  <section class="product-grid">
-    <div class="product-card">
-      <img src="https://i.imgur.com/EHyR2nP.png" alt="T-shirt">
-      <h3>Stylish T-shirt</h3>
-      <p>₹499</p>
-      <button class="buy-now" data-id="price_1Pxxxxx">Buy Now</button>
-    </div>
-    <div class="product-card">
-      <img src="https://i.imgur.com/VG4f4aM.png" alt="Handbag">
-      <h3>Elegant Handbag</h3>
-      <p>₹1,299</p>
-      <button class="buy-now" data-id="price_1Pyyyyy">Buy Now</button>
-    </div>
-    <div class="product-card">
-      <img src="https://i.imgur.com/qIufhof.png" alt="Shoes">
-      <h3>Running Shoes</h3>
-      <p>₹1,999</p>
-      <button class="buy-now" data-id="price_1Pzzzzz">Buy Now</button>
-    </div>
-  </section>
+    <!-- Products grid container -->
+    <section id="shop">
+      <div id="products" class="product-grid"></div>
+    </section>
+  </main>
 
-  <!-- Contact Popup -->
+  <!-- Contact Popup (Formspree) -->
   <div id="contactModal" class="modal">
     <div class="modal-content">
       <span class="close">&times;</span>
-      <form action="https://formspree.io/f/xeovoozn" method="POST">
-        <h3>Contact Us</h3>
+      <form id="contactForm" action="https://formspree.io/f/xeovoozn" method="POST">
+        <h3>Contact / Quick Order</h3>
         <input type="text" name="name" placeholder="Your name" required>
         <input type="email" name="email" placeholder="Your email" required>
-        <textarea name="message" placeholder="Your message" required></textarea>
-        <button type="submit">Send</button>
+        <textarea name="message" placeholder="Message (product, qty, address)"></textarea>
+        <button type="submit" class="primary">Send</button>
       </form>
     </div>
   </div>
 
-  <footer>
-    <p>© 2025 Messo Store – Fashion, Lifestyle, and More</p>
+  <footer style="text-align:center;padding:18px 0;background:#fff;margin-top:28px">
+    <p>© 2025 Messo Store — Fashion, Lifestyle, and More</p>
   </footer>
 
+  <!-- Stripe.js (publishable key is used inside script.js) -->
   <script src="https://js.stripe.com/v3/"></script>
+
+  <!-- products list & main frontend logic -->
+  <script src="assets/js/products.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
