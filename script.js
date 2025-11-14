@@ -1,140 +1,89 @@
-// script.js (copy entire file and replace existing script.js)
-// Stripe publishable key (your provided pk)
+// ==============================
+// script.js (FULL - copy paste to replace existing script.js)
+// ==============================
+
+// 1) Stripe publishable key (tumhara diya hua)
 const stripe = Stripe("pk_live_51SSmVu3QzOhSCgVOrmvQMFbEclpfJxL30oAKd3fuLgsCkYpYTqqEXeDOZ66RZcIRBA6Uk96Pe7l6ovOHoBVzsawN003q5LLFUd");
 
-// Backend root:
-// If you have a backend (Render) that exposes /create-checkout-session, set it here.
-// Example: const API_ROOT = "https://your-backend.onrender.com";
-const API_ROOT = ""; // <-- keep empty for now if you don't have backend
+// 2) Backend API root (tumhara Render URL) — FORCE trailing slash न लगाओ
+const API_ROOT = "https://sharmasourav082002-arch-github-io-1.onrender.com";
 
-// Render products into #products
-function renderProducts(){
+// 3) Render products into #products (expects window.PRODUCTS_FRONTEND loaded before this file)
+function renderProducts() {
   const container = document.getElementById('products');
-  if(!container) return;
+  if (!container) return;
   const products = window.PRODUCTS_FRONTEND || [];
-  if(!products.length){
-    container.innerHTML = '<p>No products found.</p>'; return;
+  if (!products.length) {
+    container.innerHTML = '<p style="padding:20px">No products found.</p>';
+    return;
   }
 
-  const html = products.map(p => `
+  container.innerHTML = products.map(p => `
     <div class="product-card" id="prod-${p.id}">
       <div class="media">
         ${p.video ? `<video controls class="product-video"><source src="${p.video}" type="video/mp4"></video>` :
-                    `<img src="${p.image}" alt="${p.title}" class="product-img" />`}
+                    `<img src="${p.image}" alt="${escapeHtml(p.title)}" class="product-img" />`}
       </div>
-      <h3 class="product-title">${p.title}</h3>
-      <p class="product-price">${p.price_display}</p>
-      <div style="margin-top:auto">
-        <button class="primary buy-now" data-id="${p.id}">Buy Now</button>
-        <a class="secondary" href="product.html?id=${p.id}">View</a>
-      </div>
-    </div>
-  `).join('');
-  container.innerHTML = html;
-}
-
-// Attach search + category
-function buildFilters(){
-  const products = window.PRODUCTS_FRONTEND || [];
-  const catSet = new Set(products.map(p => p.title.split(' ')[1] || 'General'));
-  const select = document.getElementById('categorySelect');
-  if(select){
-    for(const c of Array.from(catSet)){
-      const opt = document.createElement('option'); opt.value = c; opt.textContent = c;
-      select.appendChild(opt);
-    }
-    select.onchange = applyFilters;
-  }
-  const search = document.getElementById('searchInput');
-  if(search) search.oninput = applyFilters;
-}
-
-function applyFilters(){
-  const q = (document.getElementById('searchInput')||{value:''}).value.toLowerCase();
-  const cat = (document.getElementById('categorySelect')||{value:'all'}).value;
-  const container = document.getElementById('products');
-  const products = window.PRODUCTS_FRONTEND || [];
-  const filtered = products.filter(p=>{
-    const inSearch = p.title.toLowerCase().includes(q);
-    const inCat = (cat === 'all') || (p.title.split(' ')[1] === cat);
-    return inSearch && inCat;
-  });
-  if(!filtered.length){ container.innerHTML = '<p>No products match.</p>'; return; }
-  container.innerHTML = filtered.map(p => `
-    <div class="product-card" id="prod-${p.id}">
-      <div class="media">
-        ${p.video ? `<video controls class="product-video"><source src="${p.video}" type="video/mp4"></video>` :
-                    `<img src="${p.image}" alt="${p.title}" class="product-img" />`}
-      </div>
-      <h3 class="product-title">${p.title}</h3>
-      <p class="product-price">${p.price_display}</p>
-      <div style="margin-top:auto">
-        <button class="primary buy-now" data-id="${p.id}">Buy Now</button>
-        <a class="secondary" href="product.html?id=${p.id}">View</a>
+      <div class="product-info">
+        <h3 class="product-title">${escapeHtml(p.title)}</h3>
+        <p class="product-price">${escapeHtml(p.price_display)}</p>
+        <div class="product-actions">
+          <button class="buy-now primary" data-id="${p.id}">Buy Now</button>
+          <a class="view-btn" href="product.html?id=${p.id}">View</a>
+        </div>
       </div>
     </div>
   `).join('');
-  attachBuyNowHandlers(); // reattach
 }
 
-// Attach Buy Now handlers
-function attachBuyNowHandlers(){
-  document.querySelectorAll('.buy-now').forEach(btn=>{
-    btn.onclick = async function(){
-      const pid = btn.getAttribute('data-id');
-      const itemDef = (window.PRODUCTS_FRONTEND || []).find(x=>x.id===pid);
-      if(!itemDef){ alert('Product error'); return; }
+// utility escape
+function escapeHtml(str){ return String(str||'').replace(/[&<>"']/g, s=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' })[s]); }
 
-      // If you have backend: call /create-checkout-session
-      if(API_ROOT && API_ROOT.length){
-        try{
-          const res = await fetch(`${API_ROOT.replace(/\/$/,'')}/create-checkout-session`,{
-            method:'POST',
-            headers:{'Content-Type':'application/json'},
-            body: JSON.stringify({ items:[{ id: pid, qty: 1 }], currency: itemDef.currency })
-          });
-          const data = await res.json();
-          if(data.url){ window.location.href = data.url; return; }
-          alert('Payment Error: ' + (data.error || 'no session url'));
-        }catch(err){ console.error(err); alert('Payment request failed. Check console.'); }
-        return;
-      }
+// 4) Attach Buy Now handlers (delegated)
+function attachBuyNowHandlers() {
+  document.querySelectorAll(".buy-now").forEach(btn => {
+    btn.addEventListener("click", async (e) => {
+      const productId = btn.getAttribute("data-id");
+      if (!productId) return alert("Product error");
 
-      // No backend: fallback — redirect to checkout.html (demo)
-      alert('Demo checkout: no backend configured. You will be redirected to demo checkout page.');
-      window.location.href = 'checkout.html';
-    };
-  });
-}
+      // create checkout session on backend
+      try {
+        // show small loading state
+        btn.disabled = true;
+        btn.textContent = "Please wait...";
 
-// Init
-(function init(){
-  renderProducts();
-  buildFilters();
-  attachBuyNowHandlers();
-
-  // listen for product page buy events
-  window.addEventListener('messoBuy', async (e)=>{
-    const pid = e.detail && e.detail.id;
-    if(!pid) return;
-    // same handler logic as above
-    const itemDef = (window.PRODUCTS_FRONTEND||[]).find(x=>x.id===pid);
-    if(!itemDef) { alert('Product not found'); return; }
-    if(API_ROOT && API_ROOT.length){
-      try{
-        const res = await fetch(`${API_ROOT.replace(/\/$/,'')}/create-checkout-session`,{
-          method:'POST',
-          headers:{'Content-Type':'application/json'},
-          body: JSON.stringify({ items:[{ id: pid, qty:1 }], currency: itemDef.currency })
+        const res = await fetch(`${API_ROOT}/create-checkout-session`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            items: [{ id: productId, qty: 1 }],
+            currency: "inr",
+            // optional: customer_email: "customer@example.com"
+          })
         });
-        const data = await res.json();
-        if(data.url) { window.location.href = data.url; return; }
-        alert('Payment Error');
-      }catch(err){ console.error(err); alert('Payment error'); }
-      return;
-    }
-    alert('Demo checkout: no backend configured.');
-    window.location.href = 'checkout.html';
-  });
 
-})();
+        const data = await res.json();
+        if (data && data.url) {
+          // redirect user to stripe checkout
+          window.location.href = data.url;
+        } else {
+          console.error("create-checkout-session failed:", data);
+          alert("Payment Error: " + (data && data.error ? data.error : "unknown"));
+        }
+      } catch (err) {
+        console.error(err);
+        alert("Payment request failed");
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Buy Now";
+      }
+    });
+  });
+}
+
+// 5) On page load
+document.addEventListener("DOMContentLoaded", () => {
+  // render and attach handlers
+  renderProducts();
+  attachBuyNowHandlers();
+});
