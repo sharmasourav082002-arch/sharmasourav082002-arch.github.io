@@ -1,28 +1,221 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Product Detail</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <header>
-    <h1>Product Details</h1>
-    <a href="index.html" class="back">← Back</a>
-  </header>
+window.PRODUCTS_FRONTEND = [
+  { id: "p1",  title: "Stylish T-Shirt", price_display: "₹499",  currency: "inr", price_smallest: 49900,  image: "https://picsum.photos/400?random=1",  video: "" },
+  { id: "p2",  title: "Elegant Handbag", price_display: "₹1299", currency: "inr", price_smallest: 129900, image: "https://picsum.photos/400?random=2",  video: "" },
+  { id: "p3",  title: "Running Shoes", price_display: "₹999",  currency: "inr", price_smallest: 99900,  image: "https://picsum.photos/400?random=3",  video: "" },
+  { id: "p4",  title: "Casual Jeans", price_display: "₹799",  currency: "inr", price_smallest: 79900,  image: "https://picsum.photos/400?random=4",  video: "" },
+  { id: "p5",  title: "Cotton Kurti", price_display: "₹599",  currency: "inr", price_smallest: 59900,  image: "https://picsum.photos/400?random=5",  video: "" },
+  { id: "p6",  title: "Smart Watch", price_display: "₹1599", currency: "inr", price_smallest: 159900, image: "https://picsum.photos/400?random=6",  video: "" },
+  { id: "p7",  title: "Sunglasses", price_display: "₹299",  currency: "inr", price_smallest: 29900,  image: "https://picsum.photos/400?random=7",  video: "" },
+  { id: "p8",  title: "Leather Wallet", price_display: "₹399",  currency: "inr", price_smallest: 39900,  image: "https://picsum.photos/400?random=8",  video: "" },
+  { id: "p9",  title: "Formal Shirt", price_display: "₹699",  currency: "inr", price_smallest: 69900,  image: "https://picsum.photos/400?random=9",  video: "" },
+  { id: "p10", title: "Kids Dress", price_display: "₹499",  currency: "inr", price_smallest: 49900,  image: "https://picsum.photos/400?random=10", video: "" },
 
-  <section class="product-detail">
-    <img src="https://i.imgur.com/EHyR2nP.png" alt="Product Image">
-    <div>
-      <h2>Stylish T-shirt</h2>
-      <p>Soft cotton fabric with a premium fit and modern design.</p>
-      <h3>₹499</h3>
-      <button class="buy-now" data-id="price_1Pxxxxx">Buy Now</button>
-    </div>
-  </section>
+  { id: "p11", title: "Ladies Sandals", price_display: "₹549",  currency: "inr", price_smallest: 54900,  image: "https://picsum.photos/400?random=11", video: "" },
+  { id: "p12", title: "Winter Jacket", price_display: "₹1499", currency: "inr", price_smallest: 149900, image: "https://picsum.photos/400?random=12", video: "" },
+  { id: "p13", title: "Casual Top", price_display: "₹399",  currency: "inr", price_smallest: 39900,  image: "https://picsum.photos/400?random=13", video: "" },
+  { id: "p14", title: "Yoga Pants", price_display: "₹449",  currency: "inr", price_smallest: 44900,  image: "https://picsum.photos/400?random=14", video: "" },
+  { id: "p15", title: "Printed Saree", price_display: "₹899",  currency: "inr", price_smallest: 89900,  image: "https://picsum.photos/400?random=15", video: "" },
+  { id: "p16", title: "Sports Cap", price_display: "₹199",  currency: "inr", price_smallest: 19900,  image: "https://picsum.photos/400?random=16", video: "" },
+  { id: "p17", title: "Bluetooth Earbuds", price_display: "₹999", currency: "inr", price_smallest: 99900,  image: "https://picsum.photos/400?random=17", video: "" },
+  { id: "p18", title: "Backpack Bag", price_display: "₹699",  currency: "inr", price_smallest: 69900,  image: "https://picsum.photos/400?random=18", video: "" },
+  { id: "p19", title: "Office Shoes", price_display: "₹1199", currency: "inr", price_smallest: 119900, image: "https://picsum.photos/400?random=19", video: "" },
+  { id: "p20", title: "Ethnic Lehenga", price_display: "₹1799", currency: "inr", price_smallest: 179900, image: "https://picsum.photos/400?random=20", video: "" },
 
-  <script src="https://js.stripe.com/v3/"></script>
-  <script src="script.js"></script>
-</body>
-</html>
+  { id: "p21", title: "Beard Trimmer", price_display: "₹749",  currency: "inr", price_smallest: 74900,  image: "https://picsum.photos/400?random=21", video: "" },
+  { id: "p22", title: "Denim Jacket", price_display: "₹1299", currency: "inr", price_smallest: 129900, image: "https://picsum.photos/400?random=22", video: "" },
+  { id: "p23", title: "Formal Pants", price_display: "₹799",  currency: "inr", price_smallest: 79900,  image: "https://picsum.photos/400?random=23", video: "" },
+  { id: "p24", title: "Ladies Purse", price_display: "₹459",  currency: "inr", price_smallest: 45900,  image: "https://picsum.photos/400?random=24", video: "" },
+  { id: "p25", title: "Cotton Shorts", price_display: "₹299",  currency: "inr", price_smallest: 29900,  image: "https://picsum.photos/400?random=25", video: "" },
+  { id: "p26", title: "Travel Trolley", price_display: "₹2499", currency: "inr", price_smallest: 249900, image: "https://picsum.photos/400?random=26", video: "" },
+  { id: "p27", title: "Sports Bra", price_display: "₹349",  currency: "inr", price_smallest: 34900,  image: "https://picsum.photos/400?random=27", video: "" },
+  { id: "p28", title: "Gym Gloves", price_display: "₹199",  currency: "inr", price_smallest: 19900,  image: "https://picsum.photos/400?random=28", video: "" },
+  { id: "p29", title: "Hair Dryer", price_display: "₹699",  currency: "inr", price_smallest: 69900,  image: "https://picsum.photos/400?random=29", video: "" },
+  { id: "p30", title: "Night Suit", price_display: "₹549",  currency: "inr", price_smallest: 54900,  image: "https://picsum.photos/400?random=30", video: "" },
+
+  { id: "p31", title: "Analog Watch", price_display: "₹799",  currency: "inr", price_smallest: 79900,  image: "https://picsum.photos/400?random=31", video: "" },
+  { id: "p32", title: "Cotton Bedsheet", price_display: "₹499",  currency: "inr", price_smallest: 49900,  image: "https://picsum.photos/400?random=32", video: "" },
+  { id: "p33", title: "LED Table Lamp", price_display: "₹299",  currency: "inr", price_smallest: 29900,  image: "https://picsum.photos/400?random=33", video: "" },
+  { id: "p34", title: "Ladies Blouse", price_display: "₹329",  currency: "inr", price_smallest: 32900,  image: "https://picsum.photos/400?random=34", video: "" },
+  { id: "p35", title: "Sports T-shirt", price_display: "₹449",  currency: "inr", price_smallest: 44900,  image: "https://picsum.photos/400?random=35", video: "" },
+  { id: "p36", title: "Slim Fit Jeans", price_display: "₹899",  currency: "inr", price_smallest: 89900,  image: "https://picsum.photos/400?random=36", video: "" },
+  { id: "p37", title: "Hand Towels", price_display: "₹199",  currency: "inr", price_smallest: 19900,  image: "https://picsum.photos/400?random=37", video: "" },
+  { id: "p38", title: "Makeup Kit", price_display: "₹999",  currency: "inr", price_smallest: 99900,  image: "https://picsum.photos/400?random=38", video: "" },
+  { id: "p39", title: "Kids Toys", price_display: "₹299",  currency: "inr", price_smallest: 29900,  image: "https://picsum.photos/400?random=39", video: "" },
+  { id: "p40", title: "Bluetooth Speaker", price_display: "₹1199", currency: "inr", price_smallest: 119900, image: "https://picsum.photos/400?random=40", video: "" },
+
+  { id: "p41", title: "Trendy Kurta Set", price_display: "₹1299", currency: "inr", price_smallest: 129900, image: "https://picsum.photos/400?random=41", video: "" },
+  { id: "p42", title: "Office Bag", price_display: "₹899",  currency: "inr", price_smallest: 89900,  image: "https://picsum.photos/400?random=42", video: "" },
+  { id: "p43", title: "Designer Ring", price_display: "₹149",  currency: "inr", price_smallest: 14900,  image: "https://picsum.photos/400?random=43", video: "" },
+  { id: "p44", title: "Pendant Chain", price_display: "₹199",  currency: "inr", price_smallest: 19900,  image: "https://picsum.photos/400?random=44", video: "" },
+  { id: "p45", title: "Home Slippers", price_display: "₹249",  currency: "inr", price_smallest: 24900,  image: "https://picsum.photos/400?random=45", video: "" },
+  { id: "p46", title: "Sofa Cushion", price_display: "₹349",  currency: "inr", price_smallest: 34900,  image: "https://picsum.photos/400?random=46", video: "" },
+  { id: "p47", title: "Car Dashboard Idol", price_display: "₹199",  currency: "inr", price_smallest: 19900,  image: "https://picsum.photos/400?random=47", video: "" },
+  { id: "p48", title: "Table Clock", price_display: "₹299",  currency: "inr", price_smallest: 29900,  image: "https://picsum.photos/400?random=48", video: "" },
+  { id: "p49", title: "Water Bottle", price_display: "₹159",  currency: "inr", price_smallest: 15900,  image: "https://picsum.photos/400?random=49", video: "" },
+  { id: "p50", title: "Sneakers", price_display: "₹999",  currency: "inr", price_smallest: 99900,  image: "https://picsum.photos/400?random=50", video: "" },
+
+  { id: "p51", title: "Graphic Hoodie", price_display: "₹799",  currency: "inr", price_smallest: 79900,  image: "https://picsum.photos/400?random=51", video: "" },
+  { id: "p52", title: "Party Wear Gown", price_display: "₹1499", currency: "inr", price_smallest: 149900, image: "https://picsum.photos/400?random=52", video: "" },
+  { id: "p53", title: "Joggers Pant", price_display: "₹599",  currency: "inr", price_smallest: 59900,  image: "https://picsum.photos/400?random=53", video: "" },
+  { id: "p54", title: "Leather Belt", price_display: "₹249",  currency: "inr", price_smallest: 24900,  image: "https://picsum.photos/400?random=54", video: "" },
+  { id: "p55", title: "Wedding Saree", price_display: "₹2199", currency: "inr", price_smallest: 219900, image: "https://picsum.photos/400?random=55", video: "" },
+  { id: "p56", title: "Sports Watch", price_display: "₹1299", currency: "inr", price_smallest: 129900, image: "https://picsum.photos/400?random=56", video: "" },
+  { id: "p57", title: "Ladies Heels", price_display: "₹899",  currency: "inr", price_smallest: 89900,  image: "https://picsum.photos/400?random=57", video: "" },
+  { id: "p58", title: "Portable Fan", price_display: "₹399",  currency: "inr", price_smallest: 39900,  image: "https://picsum.photos/400?random=58", video: "" },
+  { id: "p59", title: "Kids School Bag", price_display: "₹499",  currency: "inr", price_smallest: 49900,  image: "https://picsum.photos/400?random=59", video: "" },
+  { id: "p60", title: "Wireless Keyboard", price_display: "₹799",  currency: "inr", price_smallest: 79900,  image: "https://picsum.photos/400?random=60", video: "" },
+
+  { id: "p61", title: "Laptop Stand", price_display: "₹399",  currency: "inr", price_smallest: 39900,  image: "https://picsum.photos/400?random=61", video: "" },
+  { id: "p62", title: "Cushion Cover Set", price_display: "₹299",  currency: "inr", price_smallest: 29900,  image: "https://picsum.photos/400?random=62", video: "" },
+  { id: "p63", title: "Face Serum", price_display: "₹349",  currency: "inr", price_smallest: 34900,  image: "https://picsum.photos/400?random=63", video: "" },
+  { id: "p64", title: "Travel Backpack", price_display: "₹799",  currency: "inr", price_smallest: 79900,  image: "https://picsum.photos/400?random=64", video: "" },
+  { id: "p65", title: "Digital Alarm Clock", price_display: "₹299",  currency: "inr", price_smallest: 29900,  image: "https://picsum.photos/400?random=65", video: "" },
+  { id: "p66", title: "Wall Painting", price_display: "₹899",  currency: "inr", price_smallest: 89900,  image: "https://picsum.photos/400?random=66", video: "" },
+  { id: "p67", title: "Wooden Temple", price_display: "₹1599", currency: "inr", price_smallest: 159900, image: "https://picsum.photos/400?random=67", video: "" },
+  { id: "p68", title: "Kitchen Organizer", price_display: "₹349",  currency: "inr", price_smallest: 34900,  image: "https://picsum.photos/400?random=68", video: "" },
+  { id: "p69", title: "Baby Blanket", price_display: "₹399",  currency: "inr", price_smallest: 39900,  image: "https://picsum.photos/400?random=69", video: "" },
+  { id: "p70", title: "Printed Bedsheet", price_display: "₹699",  currency: "inr", price_smallest: 69900,  image: "https://picsum.photos/400?random=70", video: "" },
+
+  { id: "p71", title: "Designer Earrings", price_display: "₹199",  currency: "inr", price_smallest: 19900,  image: "https://picsum.photos/400?random=71", video: "" },
+  { id: "p72", title: "Wireless Mouse", price_display: "₹249",  currency: "inr", price_smallest: 24900,  image: "https://picsum.photos/400?random=72", video: "" },
+  { id: "p73", title: "Office Chair Cover", price_display: "₹299",  currency: "inr", price_smallest: 29900,  image: "https://picsum.photos/400?random=73", video: "" },
+  { id: "p74", title: "Indoor Plant Pot", price_display: "₹179",  currency: "inr", price_smallest: 17900,  image: "https://picsum.photos/400?random=74", video: "" },
+  { id: "p75", title: "Makeup Brush Set", price_display: "₹349",  currency: "inr", price_smallest: 34900,  image: "https://picsum.photos/400?random=75", video: "" },
+  { id: "p76", title: "Travel Pouch", price_display: "₹149",  currency: "inr", price_smallest: 14900,  image: "https://picsum.photos/400?random=76", video: "" },
+  { id: "p77", title: "Raincoat", price_display: "₹499",  currency: "inr", price_smallest: 49900,  image: "https://picsum.photos/400?random=77", video: "" },
+  { id: "p78", title: "Men’s Boots", price_display: "₹1299", currency: "inr", price_smallest: 129900, image: "https://picsum.photos/400?random=78", video: "" },
+  { id: "p79", title: "Silk Dupatta", price_display: "₹249",  currency: "inr", price_smallest: 24900,  image: "https://picsum.photos/400?random=79", video: "" },
+  { id: "p80", title: "Iron Box", price_display: "₹799",  currency: "inr", price_smallest: 79900,  image: "https://picsum.photos/400?random=80", video: "" },
+
+  { id: "p81", title: "Wireless Charger", price_display: "₹599",  currency: "inr", price_smallest: 59900,  image: "https://picsum.photos/400?random=81", video: "" },
+  { id: "p82", title: "Stainless Steel Flask", price_display: "₹299",  currency: "inr", price_smallest: 29900,  image: "https://picsum.photos/400?random=82", video: "" },
+  { id: "p83", title: "Baby Shoes", price_display: "₹199",  currency: "inr", price_smallest: 19900,  image: "https://picsum.photos/400?random=83", video: "" },
+  { id: "p84", title: "Ankle Socks Pack", price_display: "₹159",  currency: "inr", price_smallest: 15900,  image: "https://picsum.photos/400?random=84", video: "" },
+  { id: "p85", title: "Phone Holder", price_display: "₹179",  currency: "inr", price_smallest: 17900,  image: "https://picsum.photos/400?random=85", video: "" },
+  { id: "p86", title: "Kitchen Apron", price_display: "₹149",  currency: "inr", price_smallest: 14900,  image: "https://picsum.photos/400?random=86", video: "" },
+  { id: "p87", title: "Hair Straightener", price_display: "₹699",  currency: "inr", price_smallest: 69900,  image: "https://picsum.photos/400?random=87", video: "" },
+  { id: "p88", title: "Home Decor Light", price_display: "₹349",  currency: "inr", price_smallest: 34900,  image: "https://picsum.photos/400?random=88", video: "" },
+  { id: "p89", title: "Bluetooth Headset", price_display: "₹999",  currency: "inr", price_smallest: 99900,  image: "https://picsum.photos/400?random=89", video: "" },
+  { id: "p90", title: "Designer Kurti Set", price_display: "₹1199", currency: "inr", price_smallest: 119900, image: "https://picsum.photos/400?random=90", video: "" },
+
+  { id: "p91", title: "Perfume Bottle", price_display: "₹499",  currency: "inr", price_smallest: 49900,  image: "https://picsum.photos/400?random=91", video: "" },
+  { id: "p92", title: "Ladies Shrug", price_display: "₹299",  currency: "inr", price_smallest: 29900,  image: "https://picsum.photos/400?random=92", video: "" },
+  { id: "p93", title: "Electric Kettle", price_display: "₹599",  currency: "inr", price_smallest: 59900,  image: "https://picsum.photos/400?random=93", video: "" },
+  { id: "p94", title: "Mini Projector", price_display: "₹2499", currency: "inr", price_smallest: 249900, image: "https://picsum.photos/400?random=94", video: "" },
+  { id: "p95", title: "Baby Diaper Bag", price_display: "₹799",  currency: "inr", price_smallest: 79900,  image: "https://picsum.photos/400?random=95", video: "" },
+  { id: "p96", title: "Table Runner", price_display: "₹199",  currency: "inr", price_smallest: 19900,  image: "https://picsum.photos/400?random=96", video: "" },
+  { id: "p97", title: "Car Vacuum Cleaner", price_display: "₹699",  currency: "inr", price_smallest: 69900,  image: "https://picsum.photos/400?random=97", video: "" },
+  { id: "p98", title: "Food Chopper", price_display: "₹299",  currency: "inr", price_smallest: 29900,  image: "https://picsum.photos/400?random=98", video: "" },
+  { id: "p99", title: "Toaster", price_display: "₹799",  currency: "inr", price_smallest: 79900,  image: "https://picsum.photos/400?random=99", video: "" },
+  { id: "p100", title: "Pressure Cooker", price_display: "₹1199", currency: "inr", price_smallest: 119900, image: "https://picsum.photos/400?random=100", video: "" },
+
+  { id: "p101", title: "Rubber Mat", price_display: "₹249",  currency: "inr", price_smallest: 24900,  image: "https://picsum.photos/400?random=101", video: "" },
+  { id: "p102", title: "LED Strip Light", price_display: "₹299",  currency: "inr", price_smallest: 29900,  image: "https://picsum.photos/400?random=102", video: "" },
+  { id: "p103", title: "Smartphone Case", price_display: "₹199",  currency: "inr", price_smallest: 19900,  image: "https://picsum.photos/400?random=103", video: "" },
+  { id: "p104", title: "Car Phone Holder", price_display: "₹159",  currency: "inr", price_smallest: 15900,  image: "https://picsum.photos/400?random=104", video: "" },
+  { id: "p105", title: "Wireless Earphones", price_display: "₹899",  currency: "inr", price_smallest: 89900,  image: "https://picsum.photos/400?random=105", video: "" },
+  { id: "p106", title: "Bedside Lamp", price_display: "₹349",  currency: "inr", price_smallest: 34900,  image: "https://picsum.photos/400?random=106", video: "" },
+  { id: "p107", title: "Roasted Gift Hamper", price_display: "₹699",  currency: "inr", price_smallest: 69900,  image: "https://picsum.photos/400?random=107", video: "" },
+  { id: "p108", title: "Stationery Kit", price_display: "₹249",  currency: "inr", price_smallest: 24900,  image: "https://picsum.photos/400?random=108", video: "" },
+  { id: "p109", title: "Bluetooth FM Transmitter", price_display: "₹399",  currency: "inr", price_smallest: 39900,  image: "https://picsum.photos/400?random=109", video: "" },
+  { id: "p110", title: "Canvas Shoes", price_display: "₹599",  currency: "inr", price_smallest: 59900,  image: "https://picsum.photos/400?random=110", video: "" },
+
+  { id: "p111", title: "Bed Cover", price_display: "₹899",  currency: "inr", price_smallest: 89900,  image: "https://picsum.photos/400?random=111", video: "" },
+  { id: "p112", title: "Scented Candles", price_display: "₹199",  currency: "inr", price_smallest: 19900,  image: "https://picsum.photos/400?random=112", video: "" },
+  { id: "p113", title: "Garden Hose", price_display: "₹349",  currency: "inr", price_smallest: 34900,  image: "https://picsum.photos/400?random=113", video: "" },
+  { id: "p114", title: "Travel Adapter", price_display: "₹249",  currency: "inr", price_smallest: 24900,  image: "https://picsum.photos/400?random=114", video: "" },
+  { id: "p115", title: "Car Cover", price_display: "₹1299", currency: "inr", price_smallest: 129900, image: "https://picsum.photos/400?random=115", video: "" },
+  { id: "p116", title: "Laptop Sleeve", price_display: "₹399",  currency: "inr", price_smallest: 39900,  image: "https://picsum.photos/400?random=116", video: "" },
+  { id: "p117", title: "Kids Puzzle Game", price_display: "₹249",  currency: "inr", price_smallest: 24900,  image: "https://picsum.photos/400?random=117", video: "" },
+  { id: "p118", title: "Portable Mixer", price_display: "₹899",  currency: "inr", price_smallest: 89900,  image: "https://picsum.photos/400?random=118", video: "" },
+  { id: "p119", title: "Desk Organizer", price_display: "₹199",  currency: "inr", price_smallest: 19900,  image: "https://picsum.photos/400?random=119", video: "" },
+  { id: "p120", title: "Wall Shelf", price_display: "₹599",  currency: "inr", price_smallest: 59900,  image: "https://picsum.photos/400?random=120", video: "" },
+
+  { id: "p121", title: "Hand Mixer", price_display: "₹799",  currency: "inr", price_smallest: 79900,  image: "https://picsum.photos/400?random=121", video: "" },
+  { id: "p122", title: "Electric Grill", price_display: "₹1499", currency: "inr", price_smallest: 149900, image: "https://picsum.photos/400?random=122", video: "" },
+  { id: "p123", title: "Wireless Doorbell", price_display: "₹499",  currency: "inr", price_smallest: 49900,  image: "https://picsum.photos/400?random=123", video: "" },
+  { id: "p124", title: "Car Air Freshener", price_display: "₹99",   currency: "inr", price_smallest: 9900,   image: "https://picsum.photos/400?random=124", video: "" },
+  { id: "p125", title: "Portable Charger", price_display: "₹699",  currency: "inr", price_smallest: 69900,  image: "https://picsum.photos/400?random=125", video: "" },
+  { id: "p126", title: "Makeup Mirror", price_display: "₹299",  currency: "inr", price_smallest: 29900,  image: "https://picsum.photos/400?random=126", video: "" },
+  { id: "p127", title: "Kids Study Table", price_display: "₹1999", currency: "inr", price_smallest: 199900, image: "https://picsum.photos/400?random=127", video: "" },
+  { id: "p128", title: "Camping Tent", price_display: "₹2499", currency: "inr", price_smallest: 249900, image: "https://picsum.photos/400?random=128", video: "" },
+  { id: "p129", title: "Outdoor Lantern", price_display: "₹399",  currency: "inr", price_smallest: 39900,  image: "https://picsum.photos/400?random=129", video: "" },
+  { id: "p130", title: "Baby Feeding Bottle", price_display: "₹249",  currency: "inr", price_smallest: 24900,  image: "https://picsum.photos/400?random=130", video: "" },
+
+  { id: "p131", title: "Pet Toy Set", price_display: "₹299",  currency: "inr", price_smallest: 29900,  image: "https://picsum.photos/400?random=131", video: "" },
+  { id: "p132", title: "Guitar Stand", price_display: "₹399",  currency: "inr", price_smallest: 39900,  image: "https://picsum.photos/400?random=132", video: "" },
+  { id: "p133", title: "Digital Thermometer", price_display: "₹199",  currency: "inr", price_smallest: 19900,  image: "https://picsum.photos/400?random=133", video: "" },
+  { id: "p134", title: "Camping Chair", price_display: "₹599",  currency: "inr", price_smallest: 59900,  image: "https://picsum.photos/400?random=134", video: "" },
+  { id: "p135", title: "Yoga Mat", price_display: "₹349",  currency: "inr", price_smallest: 34900,  image: "https://picsum.photos/400?random=135", video: "" },
+  { id: "p136", title: "Desk Lamp with USB", price_display: "₹399",  currency: "inr", price_smallest: 39900,  image: "https://picsum.photos/400?random=136", video: "" },
+  { id: "p137", title: "Mini Fridge", price_display: "₹3999", currency: "inr", price_smallest: 399900, image: "https://picsum.photos/400?random=137", video: "" },
+  { id: "p138", title: "Shoe Rack", price_display: "₹799",  currency: "inr", price_smallest: 79900,  image: "https://picsum.photos/400?random=138", video: "" },
+  { id: "p139", title: "Wall Hook Set", price_display: "₹149",  currency: "inr", price_smallest: 14900,  image: "https://picsum.photos/400?random=139", video: "" },
+  { id: "p140", title: "Travel Pillow", price_display: "₹299",  currency: "inr", price_smallest: 29900,  image: "https://picsum.photos/400?random=140", video: "" },
+
+  { id: "p141", title: "USB Microphone", price_display: "₹899",  currency: "inr", price_smallest: 89900,  image: "https://picsum.photos/400?random=141", video: "" },
+  { id: "p142", title: "Photo Frame Set", price_display: "₹249",  currency: "inr", price_smallest: 24900,  image: "https://picsum.photos/400?random=142", video: "" },
+  { id: "p143", title: "Electric Heater", price_display: "₹1299", currency: "inr", price_smallest: 129900, image: "https://picsum.photos/400?random=143", video: "" },
+  { id: "p144", title: "Cordless Vacuum", price_display: "₹2999", currency: "inr", price_smallest: 299900, image: "https://picsum.photos/400?random=144", video: "" },
+  { id: "p145", title: "Pet Grooming Kit", price_display: "₹499",  currency: "inr", price_smallest: 49900,  image: "https://picsum.photos/400?random=145", video: "" },
+  { id: "p146", title: "Car Sun Shade", price_display: "₹299",  currency: "inr", price_smallest: 29900,  image: "https://picsum.photos/400?random=146", video: "" },
+  { id: "p147", title: "Kids Water Play Mat", price_display: "₹599",  currency: "inr", price_smallest: 59900,  image: "https://picsum.photos/400?random=147", video: "" },
+  { id: "p148", title: "Sewing Kit", price_display: "₹149",  currency: "inr", price_smallest: 14900,  image: "https://picsum.photos/400?random=148", video: "" },
+  { id: "p149", title: "Electric Toothbrush", price_display: "₹999",  currency: "inr", price_smallest: 99900,  image: "https://picsum.photos/400?random=149", video: "" },
+  { id: "p150", title: "Silk Pillow Cover", price_display: "₹349",  currency: "inr", price_smallest: 34900,  image: "https://picsum.photos/400?random=150", video: "" },
+
+  { id: "p151", title: "Portable Speaker", price_display: "₹899",  currency: "inr", price_smallest: 89900,  image: "https://picsum.photos/400?random=151", video: "" },
+  { id: "p152", title: "Thermal Flask", price_display: "₹299",  currency: "inr", price_smallest: 29900,  image: "https://picsum.photos/400?random=152", video: "" },
+  { id: "p153", title: "Mini Drone", price_display: "₹3999", currency: "inr", price_smallest: 399900, image: "https://picsum.photos/400?random=153", video: "" },
+  { id: "p154", title: "Wireless Earbuds Pro", price_display: "₹1999", currency: "inr", price_smallest: 199900, image: "https://picsum.photos/400?random=154", video: "" },
+  { id: "p155", title: "Camping Stove", price_display: "₹1299", currency: "inr", price_smallest: 129900, image: "https://picsum.photos/400?random=155", video: "" },
+  { id: "p156", title: "Handbag Organizer", price_display: "₹249",  currency: "inr", price_smallest: 24900,  image: "https://picsum.photos/400?random=156", video: "" },
+  { id: "p157", title: "Portable Projector Screen", price_display: "₹999",  currency: "inr", price_smallest: 99900,  image: "https://picsum.photos/400?random=157", video: "" },
+  { id: "p158", title: "Garden Lights", price_display: "₹399",  currency: "inr", price_smallest: 39900,  image: "https://picsum.photos/400?random=158", video: "" },
+  { id: "p159", title: "Electric Scooter Light", price_display: "₹249",  currency: "inr", price_smallest: 24900,  image: "https://picsum.photos/400?random=159", video: "" },
+  { id: "p160", title: "Phone Gimbal", price_display: "₹1499", currency: "inr", price_smallest: 149900, image: "https://picsum.photos/400?random=160", video: "" },
+
+  { id: "p161", title: "Silicone Baking Mat", price_display: "₹299",  currency: "inr", price_smallest: 29900,  image: "https://picsum.photos/400?random=161", video: "" },
+  { id: "p162", title: "Ceramic Mug Set", price_display: "₹399",  currency: "inr", price_smallest: 39900,  image: "https://picsum.photos/400?random=162", video: "" },
+  { id: "p163", title: "Electric Kettle Travel", price_display: "₹699",  currency: "inr", price_smallest: 69900,  image: "https://picsum.photos/400?random=163", video: "" },
+  { id: "p164", title: "Magnetic Phone Mount", price_display: "₹199",  currency: "inr", price_smallest: 19900,  image: "https://picsum.photos/400?random=164", video: "" },
+  { id: "p165", title: "Cord Organizer", price_display: "₹149",  currency: "inr", price_smallest: 14900,  image: "https://picsum.photos/400?random=165", video: "" },
+  { id: "p166", title: "Pet Feeding Bowl", price_display: "₹199",  currency: "inr", price_smallest: 19900,  image: "https://picsum.photos/400?random=166", video: "" },
+  { id: "p167", title: "LED Bike Light", price_display: "₹249",  currency: "inr", price_smallest: 24900,  image: "https://picsum.photos/400?random=167", video: "" },
+  { id: "p168", title: "Portable Sewing Machine", price_display: "₹1599", currency: "inr", price_smallest: 159900, image: "https://picsum.photos/400?random=168", video: "" },
+  { id: "p169", title: "Bluetooth FM Radio", price_display: "₹499",  currency: "inr", price_smallest: 49900,  image: "https://picsum.photos/400?random=169", video: "" },
+  { id: "p170", title: "Eco Grocery Bags", price_display: "₹199",  currency: "inr", price_smallest: 19900,  image: "https://picsum.photos/400?random=170", video: "" },
+
+  { id: "p171", title: "Car Jumper Cables", price_display: "₹799",  currency: "inr", price_smallest: 79900,  image: "https://picsum.photos/400?random=171", video: "" },
+  { id: "p172", title: "Silicone Spatula Set", price_display: "₹149",  currency: "inr", price_smallest: 14900,  image: "https://picsum.photos/400?random=172", video: "" },
+  { id: "p173", title: "Memory Foam Pillow", price_display: "₹899",  currency: "inr", price_smallest: 89900,  image: "https://picsum.photos/400?random=173", video: "" },
+  { id: "p174", title: "Smart LED Bulb", price_display: "₹399",  currency: "inr", price_smallest: 39900,  image: "https://picsum.photos/400?random=174", video: "" },
+  { id: "p175", title: "Trekking Pole Set", price_display: "₹999",  currency: "inr", price_smallest: 99900,  image: "https://picsum.photos/400?random=175", video: "" },
+  { id: "p176", title: "Car Trunk Organizer", price_display: "₹349",  currency: "inr", price_smallest: 34900,  image: "https://picsum.photos/400?random=176", video: "" },
+  { id: "p177", title: "LED Reading Light", price_display: "₹199",  currency: "inr", price_smallest: 19900,  image: "https://picsum.photos/400?random=177", video: "" },
+  { id: "p178", title: "Kids Riding Toy", price_display: "₹1499", currency: "inr", price_smallest: 149900, image: "https://picsum.photos/400?random=178", video: "" },
+  { id: "p179", title: "Cordless Hair Clipper", price_display: "₹799",  currency: "inr", price_smallest: 79900,  image: "https://picsum.photos/400?random=179", video: "" },
+  { id: "p180", title: "Mini Air Purifier", price_display: "₹1299", currency: "inr", price_smallest: 129900, image: "https://picsum.photos/400?random=180", video: "" },
+
+  { id: "p181", title: "Foldable Table", price_display: "₹1499", currency: "inr", price_smallest: 149900, image: "https://picsum.photos/400?random=181", video: "" },
+  { id: "p182", title: "Laptop Cooling Pad", price_display: "₹399",  currency: "inr", price_smallest: 39900,  image: "https://picsum.photos/400?random=182", video: "" },
+  { id: "p183", title: "Electric Wine Opener", price_display: "₹699",  currency: "inr", price_smallest: 69900,  image: "https://picsum.photos/400?random=183", video: "" },
+  { id: "p184", title: "Measuring Spoons Set", price_display: "₹99",   currency: "inr", price_smallest: 9900,   image: "https://picsum.photos/400?random=184", video: "" },
+  { id: "p185", title: "Wooden Cutting Board", price_display: "₹399",  currency: "inr", price_smallest: 39900,  image: "https://picsum.photos/400?random=185", video: "" },
+  { id: "p186", title: "Silicone Ice Tray", price_display: "₹149",  currency: "inr", price_smallest: 14900,  image: "https://picsum.photos/400?random=186", video: "" },
+  { id: "p187", title: "Travel Shoe Bag", price_display: "₹199",  currency: "inr", price_smallest: 19900,  image: "https://picsum.photos/400?random=187", video: "" },
+  { id: "p188", title: "Pet Leash Set", price_display: "₹249",  currency: "inr", price_smallest: 24900,  image: "https://picsum.photos/400?random=188", video: "" },
+  { id: "p189", title: "Smart Thermostat", price_display: "₹3999", currency: "inr", price_smallest: 399900, image: "https://picsum.photos/400?random=189", video: "" },
+  { id: "p190", title: "Mini Rice Cooker", price_display: "₹999",  currency: "inr", price_smallest: 99900,  image: "https://picsum.photos/400?random=190", video: "" },
+
+  { id: "p191", title: "LED Mirror Light", price_display: "₹599",  currency: "inr", price_smallest: 59900,  image: "https://picsum.photos/400?random=191", video: "" },
+  { id: "p192", title: "Car Organiser Box", price_display: "₹349",  currency: "inr", price_smallest: 34900,  image: "https://picsum.photos/400?random=192", video: "" },
+  { id: "p193", title: "Baby Play Gym", price_display: "₹799",  currency: "inr", price_smallest: 79900,  image: "https://picsum.photos/400?random=193", video: "" },
+  { id: "p194", title: "Phone Selfie Ring", price_display: "₹149",  currency: "inr", price_smallest: 14900,  image: "https://picsum.photos/400?random=194", video: "" },
+  { id: "p195", title: "Travel Makeup Case", price_display: "₹399",  currency: "inr", price_smallest: 39900,  image: "https://picsum.photos/400?random=195", video: "" },
+  { id: "p196", title: "Fitness Resistance Bands", price_display: "₹249",  currency: "inr", price_smallest: 24900,  image: "https://picsum.photos/400?random=196", video: "" },
+  { id: "p197", title: "Portable Water Filter", price_display: "₹999",  currency: "inr", price_smallest: 99900,  image: "https://picsum.photos/400?random=197", video: "" },
+  { id: "p198", title: "Mini Desk Vacuum", price_display: "₹299",  currency: "inr", price_smallest: 29900,  image: "https://picsum.photos/400?random=198", video: "" },
+  { id: "p199", title: "Magnetic Bottle Opener", price_display: "₹129",  currency: "inr", price_smallest: 12900,  image: "https://picsum.photos/400?random=199", video: "" },
+  { id: "p200", title: "Foldable Grocery Cart", price_display: "₹2199", currency: "inr", price_smallest: 219900, image: "https://picsum.photos/400?random=200", video: "" }
+];
