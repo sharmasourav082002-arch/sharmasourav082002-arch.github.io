@@ -8,36 +8,47 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 
 const app = express();
-app.use(cors());
-// Note: we will use express.json() for normal routes, but raw body for webhook below
+
+// Allow CORS from your frontend (replace with your GitHub Pages domain)
+const CLIENT_ORIGIN = process.env.CLIENT_ORIGIN || '*';
+app.use(cors({ origin: CLIENT_ORIGIN }));
 app.use(express.json());
 
+// NOTE: Use STRIPE_SECRET_KEY in Render env (sk_live_... or sk_test_...)
 const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 
-// Simple health route
-app.get('/', (req, res) => res.send('Messo Stripe server running'));
+// Serve any static frontend if you put it inside /public (optional)
+app.use(express.static(path.join(__dirname, '..', 'public')));
 
-// Example: create checkout session endpoint used by frontend
+// Simple PRODUCTS map (example). Update or extend as needed.
+const PRODUCTS = {
+  "p001": { name: "Wireless Headphones", amount_inr: 19900 },
+  "p002": { name: "Cotton Shirt", amount_inr: 18000 },
+  "p003": { name: "Phone Case", amount_inr: 12900 },
+  "p004": { name: "Travel Backpack", amount_inr: 99900 },
+  "p005": { name: "LED Desk Lamp", amount_inr: 34900 }
+  // add more products keyed by id (p001 etc.)
+};
+
+// Basic health
+app.get('/', (req, res) => res.send('Backend running'));
+
+// Endpoint: create checkout session
 app.post('/create-checkout-session', async (req, res) => {
   try {
-    const { items = [], customer_email = '', currency = 'inr' } = req.body;
-    if (!items || !items.length) return res.status(400).json({ error: 'Cart is empty' });
+    const { items = [], currency = 'inr', customer_email } = req.body;
+    if (!items || items.length === 0) return res.status(400).json({ error: 'Cart empty' });
 
-    // Example products map — update / expand as needed
-    const PRODUCTS = {
-      "p1": { name: "Wireless Headphones", amount_inr: 19900, amount_gbp: 19900 }, // amounts in paise
-      "p2": { name: "Cotton Shirt", amount_inr: 18000, amount_gbp: 18000 }
-    };
-
+    // build line items
     const line_items = items.map(it => {
       const p = PRODUCTS[it.id];
       if (!p) throw new Error('Invalid product id: ' + it.id);
-      const unit_amount = (currency === 'gbp') ? p.amount_gbp : p.amount_inr;
+      const unit_amount = p.amount_inr; // in paise
       return {
         price_data: {
-          currency: currency,
+          currency,
           product_data: { name: p.name },
-          unit_amount: unit_amount
+          unit_amount
         },
         quantity: it.qty || 1
       };
@@ -48,66 +59,75 @@ app.post('/create-checkout-session', async (req, res) => {
       line_items,
       mode: 'payment',
       customer_email: customer_email || undefined,
-      shipping_address_collection: { allowed_countries: ['IN','GB'] },
-      success_url: process.env.SUCCESS_URL + '?session_id={CHECKOUT_SESSION_ID}',
-      cancel_url: process.env.CANCEL_URL
+      success_url: (process.env.SUCCESS_URL || 'https://example.com/success') + '?session_id={CHECKOUT_SESSION_ID}',
+      cancel_url: process.env.CANCEL_URL || 'https://example.com/cancel'
     });
 
     res.json({ url: session.url });
   } catch (err) {
-    console.error('Create session error', err);
+    console.error('create-checkout-session error:', err);
     res.status(500).json({ error: err.message });
   }
 });
 
-/*
-  Webhook: use raw body parser for correct signature verification.
-  Stripe requires the raw body when verifying the signature.
-*/
+// Webhook endpoint - raw body required
 app.post('/webhook', bodyParser.raw({ type: 'application/json' }), (req, res) => {
   const sig = req.headers['stripe-signature'];
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
-
   let event;
+
   try {
-    event = stripe.webhooks.constructEvent(req.body, sig, webhookSecret);
+    if (!webhookSecret) {
+      console.warn('No STRIPE_WEBHOOK_SECRET configured - skipping signature verification');
+      event = JSON.parse(req.body.toString());
+    } else {
+      event = stripe.webhooks.constructEvent(req.body, sig, webhookSecret);
+    }
   } catch (err) {
-    console.error('Webhook signature verification failed:', err.message);
-    return res.status(400).send(`Webhook error: ${err.message}`);
+    console.error('Webhook signature verification failed.', err.message);
+    return res.status(400).send(`Webhook Error: ${err.message}`);
   }
 
   // Handle events
-  if (event.type === 'checkout.session.completed') {
-    const session = event.data.object;
-    console.log('✅ checkout.session.completed', session.id, session.customer_email || session.customer);
-    // Save order to file (demo only)
-    try {
-      const ordersFile = path.join(__dirname, 'orders.json');
-      const orders = fs.existsSync(ordersFile) ? JSON.parse(fs.readFileSync(ordersFile)) : [];
-      orders.push({
-        id: session.id,
-        amount_total: session.amount_total,
-        currency: session.currency,
-        email: session.customer_email,
-        created: new Date().toISOString()
-      });
-      fs.writeFileSync(ordersFile, JSON.stringify(orders, null, 2));
-      console.log('Order saved', session.id);
-    } catch (e) {
-      console.error('Failed to save order', e);
+  switch (event.type) {
+    case 'checkout.session.completed': {
+      const session = event.data.object;
+      console.log('✅ checkout.session.completed', session.id);
+      // Save order to orders.json (append)
+      try {
+        const ordersFile = path.join(__dirname, 'orders.json');
+        const orders = fs.existsSync(ordersFile) ? JSON.parse(fs.readFileSync(ordersFile)) : [];
+        orders.push({
+          id: session.id,
+          email: session.customer_email || null,
+          amount_total: session.amount_total || null,
+          currency: session.currency || null,
+          created: new Date().toISOString()
+        });
+        fs.writeFileSync(ordersFile, JSON.stringify(orders, null, 2));
+      } catch (e) {
+        console.error('Failed to persist order', e);
+      }
+      break;
     }
+    case 'payment_intent.succeeded': {
+      const pi = event.data.object;
+      console.log('💳 payment_intent.succeeded', pi.id, 'amount:', pi.amount);
+      break;
+    }
+    default:
+      console.log(`Unhandled event type ${event.type}`);
   }
 
-  if (event.type === 'payment_intent.succeeded') {
-    const pi = event.data.object;
-    console.log('💳 payment_intent.succeeded', pi.id, 'amount:', pi.amount);
-    // optional: update DB or send email
-  }
-
-  // Acknowledge receipt of the event
   res.json({ received: true });
 });
 
-// Start server (Render provides PORT)
+// Debug: list saved orders
+app.get('/orders', (req, res) => {
+  const ordersFile = path.join(__dirname, 'orders.json');
+  if (!fs.existsSync(ordersFile)) return res.json([]);
+  res.json(JSON.parse(fs.readFileSync(ordersFile)));
+});
+
 const PORT = process.env.PORT || 4242;
-app.listen(PORT, () => console.log(`Server listening on ${PORT}`));
+app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
