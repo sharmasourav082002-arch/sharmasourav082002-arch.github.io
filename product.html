@@ -1,3 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Product — Messo</title>
+  <link rel="stylesheet" href="style.css">
+  <script defer src="https://js.stripe.com/v3/"></script>
+  <script defer src="assets/js/products.js"></script>
+  <script defer src="assets/js/script.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand"><div class="logo">MS</div><div class="brand-text"><h1>Messo</h1></div></div>
+    <nav><a href="index.html">← Back to shop</a></nav>
+  </header>
+
+  <main class="container">
+    <section class="product-detail-big">
+      <div id="mediaWrap"></div>
+      <div class="product-info">
+        <h2 id="product-title"></h2>
+        <p id="product-desc" class="muted"></p>
+        <div id="product-price" class="price"></div>
+        <div class="detail-actions">
+          <button id="buyNowBtn" class="primary">Buy Now</button>
+          <button id="addToCartBtn">Add to Cart</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2025 Messo</p>
+  </footer>
+</body>
+</html>
 window.PRODUCTS_FRONTEND = [
     {
         id: 1,
